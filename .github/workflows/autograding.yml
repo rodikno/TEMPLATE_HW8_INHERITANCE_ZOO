@@ -1,0 +1,32 @@
+name: Classroom Autograding
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  autograding:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Java (Java 17)
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+
+      # Step 3: Compile the Java code
+      - name: Compile code
+        run: javac -d out $(find src -name "*.java")
+
+      # Step 4: Run ZooSimulator
+      - name: Run ZooSimulator
+        run: java -cp out com.zoo.ZooSimulator
